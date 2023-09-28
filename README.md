@@ -161,7 +161,7 @@ The Plugin examples provided with the SDK are all tested and you can read their 
 
 Testing Plugins is highly recommended.
 
-## Migration from 0.16.x to 0.17.x
+## Migration from 0.16.x Unreleased
 
 The `BatchUpdatePluginResponse` return now two new fields, `send_items_in_error` and `send_items_in_success`
 

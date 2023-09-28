@@ -1,6 +1,6 @@
 # Changelog
 
-# 0.17.0 - 2023-09-26
+# Unreleased
 
 - Add fields `send_items_in_error` and `send_items_in_success` to `BatchUpdatePluginResponse`
 
