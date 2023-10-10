@@ -84,32 +84,28 @@ export type DeviceIdRegistryType =
   | 'MOBILE_ADVERTISING_ID'
   | 'MOBILE_VENDOR_ID';
 
-export interface IdentifyingAccountProperty {
+export interface IdentifyingAccount {
   type: 'USER_ACCOUNT';
   compartment_id?: string;
 }
 
-export interface IdentifyingEmailProperty {
+export interface IdentifyingEmail {
   type: 'USER_EMAIL';
 }
 
-export interface IdentifyingDeviceTechnicalIdProperty {
+export interface IdentifyingDeviceTechnicalId {
   type: 'USER_DEVICE_TECHNICAL_ID';
   registry_type: DeviceIdRegistryType;
   registry_id?: string;
 }
 
-export interface IdentifyingProfileProperty {
+export interface IdentifyingProfile {
   type: 'USER_PROFILE';
   compartment_id?: string;
 }
 
-export type IdentifyingResourceProperty =
-  | IdentifyingAccountProperty
-  | IdentifyingEmailProperty
-  | IdentifyingDeviceTechnicalIdProperty
-  | IdentifyingProfileProperty;
-
-export interface IdentifyingResourceListPropertyResource {
-  identifying_resources: IdentifyingResourceProperty[];
-}
+export type IdentifyingResourceShape =
+  | IdentifyingAccount
+  | IdentifyingEmail
+  | IdentifyingDeviceTechnicalId
+  | IdentifyingProfile;

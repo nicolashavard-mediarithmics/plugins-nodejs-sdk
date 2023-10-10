@@ -6,7 +6,6 @@ import {
   BooleanPropertyResource,
   DataFilePropertyResource,
   DoublePropertyResource,
-  IdentifyingResourceListPropertyResource,
   IntPropertyResource,
   NativeDataPropertyResource,
   NativeImagePropertyResource,
@@ -39,8 +38,7 @@ export type PluginProperty =
   | RecommenderProperty
   | NativeDataProperty
   | NativeTitleProperty
-  | NativeImageProperty
-  | IdentifyingResourceListProperty;
+  | NativeImageProperty;
 
 export type PropertyType =
   | 'ASSET'
@@ -144,11 +142,6 @@ export interface NativeImageProperty extends AbstractProperty {
   value: NativeImagePropertyResource;
 }
 
-export interface IdentifyingResourceListProperty extends AbstractProperty {
-  property_type: 'IDENTIFYING_RESOURCE_LIST';
-  value: IdentifyingResourceListPropertyResource;
-}
-
 export const asBooleanProperty = (p: PluginProperty): Option<BooleanProperty> => {
   return p.property_type === 'BOOLEAN' ? p : undefined;
 };
@@ -191,8 +184,4 @@ export const asNativeTitleProperty = (p: PluginProperty): Option<NativeTitleProp
 
 export const asNativeImageProperty = (p: PluginProperty): Option<NativeImageProperty> => {
   return p.property_type === 'NATIVE_IMAGE' ? p : undefined;
-};
-
-export const asIdentifyingResourceListProperty = (p: PluginProperty): Option<IdentifyingResourceListProperty> => {
-  return p.property_type === 'IDENTIFYING_RESOURCE_LIST' ? p : undefined;
 };

@@ -4,13 +4,7 @@
 import express from 'express';
 import _ from 'lodash';
 
-import {
-  IdentifyingResourceListProperty,
-  IdentifyingResourceListPropertyResource,
-  PluginProperty,
-  PluginPropertyResponse,
-  asIdentifyingResourceListProperty,
-} from '../../';
+import { PluginProperty, PluginPropertyResponse } from '../../';
 import {
   AudienceSegmentExternalFeedResource,
   AudienceSegmentexternalResourceResponse,
@@ -38,7 +32,6 @@ import { BasePlugin, PropertiesWrapper } from '../common';
 export interface AudienceFeedConnectorBaseInstanceContext {
   feed: AudienceSegmentExternalFeedResource;
   feedProperties: PropertiesWrapper;
-  selectedIdentifyingResources: IdentifyingResourceListProperty;
 }
 
 abstract class GenericAudienceFeedConnectorBasePlugin<
@@ -93,30 +86,9 @@ abstract class GenericAudienceFeedConnectorBasePlugin<
     const audienceFeed = results[0];
     const audienceFeedProps = results[1];
 
-    const identifyingResourcesPropIndex = audienceFeedProps.findIndex(
-      (p) => p.technical_name === 'selected_identifying_resources',
-    );
-
-    const untypedIdentifyingResourcesProp =
-      identifyingResourcesPropIndex === -1
-        ? undefined
-        : audienceFeedProps.splice(identifyingResourcesPropIndex, 1).pop();
-
-    const identifyingResourcesProp = untypedIdentifyingResourcesProp
-      ? asIdentifyingResourceListProperty(untypedIdentifyingResourcesProp)
-      : undefined;
-
-    const defaultSelectedIdentifyingResources = {
-      property_type: 'IDENTIFYING_RESOURCE_LIST',
-      value: {
-        identifying_resources: [],
-      } as IdentifyingResourceListPropertyResource,
-    } as IdentifyingResourceListProperty;
-
     const context: AudienceFeedConnectorBaseInstanceContext = {
       feed: audienceFeed,
       feedProperties: new PropertiesWrapper(audienceFeedProps),
-      selectedIdentifyingResources: identifyingResourcesProp ?? defaultSelectedIdentifyingResources,
     };
 
     return context;

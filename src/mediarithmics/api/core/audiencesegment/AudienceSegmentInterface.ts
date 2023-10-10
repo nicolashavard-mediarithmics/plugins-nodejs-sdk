@@ -1,4 +1,5 @@
 import { DataResponse } from '../common/Response';
+import { IdentifyingResourceShape } from '../plugin/ValueInterface';
 
 export type AudienceSegmentexternalResourceResponse = DataResponse<AudienceSegmentExternalFeedResource>;
 
@@ -9,6 +10,7 @@ export interface AudienceSegmentExternalFeedResource {
   group_id: string;
   artifact_id: string;
   version_id: string;
+  selected_identifying_resources?: IdentifyingResourceShape[];
 }
 
 export type AudienceSegmentResourceResponse = DataResponse<AudienceSegmentResource>;
