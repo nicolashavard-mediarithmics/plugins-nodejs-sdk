@@ -9,7 +9,7 @@ export enum MetricsType {
 
 export interface InitOptions {
   /**
-   * interval to send stats to datadog in ms (default = 15 seconds)
+   * interval to send stats to datadog in ms (default = 10 minutes)
    */
   timerInMs?: number;
 
@@ -18,21 +18,15 @@ export interface InitOptions {
    * When running production, NODE_ENV should be "production".
    * If running tests, NODE_ENV should be "development".
    */
-  environment?: string;
+  environment?: string | undefined;
 
   /**
    * An optional logger to send Metrics into logs (in debug mode)
    */
   logger?: winston.Logger;
-
-  /**
-   *  If larger than 0, metrics will be buffered and only sent
-   *  when the string length is greater than the size. (default = 8192)
-   */
-  maxBufferSize?: number;
 }
 
-export interface AddOrUpdateMetricsOptions {
+export interface addOrUpdateMetricsOptions {
   /**
    * @example
    * ```
@@ -62,14 +56,19 @@ export interface MetricsOptionsWithName extends MetricOptions {
  */
 export class StatsClient {
   private static instance: StatsClient;
+  private interval: NodeJS.Timer;
+  private metrics: MetricsSet;
   private client: StatsD;
 
-  private constructor(timerInMs: number, maxBufferSize: number, environment: string | undefined) {
+  private constructor(timerInMs: number, environment: string | undefined) {
+    this.metrics = new Map();
     this.client = new StatsD({
       protocol: environment === 'production' ? 'uds' : undefined,
-      maxBufferSize: maxBufferSize,
-      bufferFlushInterval: timerInMs,
     });
+
+    if (!this.interval) {
+      this.interval = setInterval(() => this.sendStats(), timerInMs);
+    }
   }
 
   /**
@@ -81,14 +80,13 @@ export class StatsClient {
    * }
    * ```
    */
-  static init({ timerInMs, environment = process.env.NODE_ENV, logger, maxBufferSize }: InitOptions): StatsClient {
-    const actualTimerInMs = timerInMs ? timerInMs : 15 * 1000;
-    const actualMaxBufferSize = maxBufferSize ? maxBufferSize : 8192;
+  static init({ timerInMs = 10 * 60 * 1000, environment = process.env.NODE_ENV, logger }: InitOptions): StatsClient {
     logger?.info(
-      `StatsClient - environment is ${environment ? environment : 'undefined'} mode - Timer is ${actualTimerInMs} - 
-      maxBufferSize is ${actualMaxBufferSize} - Initialization.`,
+      `StatsClient - environment is ${
+        environment ? environment : 'undefined'
+      } mode - Timer is ${timerInMs} - Initialization.`,
     );
-    return this.instance || (this.instance = new StatsClient(actualTimerInMs, actualMaxBufferSize, environment));
+    return this.instance || (this.instance = new StatsClient(timerInMs, environment));
   }
 
   /**
@@ -99,13 +97,46 @@ export class StatsClient {
    * this.statClient.addOrUpdateMetrics({metrics: {apiCallsError: { type: MetricsType.GAUGE, value: 10, tags: {statusCode: '500'}}}})
    * ```
    */
-  public addOrUpdateMetrics({ metrics }: AddOrUpdateMetricsOptions): void {
+  public addOrUpdateMetrics({ metrics }: addOrUpdateMetricsOptions): void {
     Object.entries(metrics).forEach(([metricName, options]) => {
-      if (options.type === MetricsType.GAUGE) {
-        this.client.gauge(metricName, options.value, { ...options.tags });
+      const customKey = metricName + '/' + JSON.stringify(options.tags);
+      if (this.metrics.has(customKey)) {
+        const metricOptions = this.metrics.get(customKey) as MetricsOptionsWithName;
+        this.metrics.set(customKey, {
+          metricName,
+          type: metricOptions.type,
+          value: metricOptions.value + options.value,
+          tags: { ...options.tags },
+        });
       } else {
-        this.client.increment(metricName, options.value, { ...options.tags });
+        this.metrics.set(customKey, {
+          metricName,
+          type: options.type,
+          value: options.value,
+          tags: options.tags,
+        });
       }
+    });
+  }
+
+  private sendStats(): void {
+    [...this.metrics.entries()].forEach(([customKey, options]) => {
+      if (options.type === MetricsType.GAUGE) {
+        this.client.gauge(options.metricName, options.value, { ...options.tags });
+      } else {
+        this.client.increment(options.metricName, options.value, { ...options.tags });
+        this.resetIncrementMetric(customKey, options.metricName);
+      }
+    });
+  }
+
+  private resetIncrementMetric(customKey: string, metricName: string) {
+    const metricOptions = this.metrics.get(customKey) as MetricOptions;
+    this.metrics.set(customKey, {
+      metricName,
+      type: metricOptions.type,
+      value: 0,
+      tags: { ...metricOptions.tags },
     });
   }
 }
