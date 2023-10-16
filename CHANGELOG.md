@@ -2,7 +2,11 @@
 
 # Unreleased
 
+
+# 0.17.0 - 2023-10-16
+
 - Add fields `send_items_in_error` and `send_items_in_success` to `BatchUpdatePluginResponse`
+- Access selected identifying resources from feed instance
 
 # 0.16.0 - 2023-08-09
 
