@@ -76,6 +76,26 @@ abstract class GenericAudienceFeedConnectorBasePlugin<
     return response.data;
   }
 
+  async createAudienceFeedProperties(feedId: string, property: PluginProperty): Promise<PluginProperty[]> {
+    const response = await super.requestGatewayHelper<PluginPropertyResponse>(
+      'POST',
+      `${this.outboundPlatformUrl}/v1/audience_segment_external_feeds/${feedId}/properties`,
+      property,
+    );
+    this.logger.debug(`Created External Feed Properties: ${feedId} - ${JSON.stringify(response.data)}`);
+    return response.data;
+  }
+
+  async updateAudienceFeedProperties(feedId: string, property: PluginProperty): Promise<PluginProperty[]> {
+    const response = await super.requestGatewayHelper<PluginPropertyResponse>(
+      'PUT',
+      `${this.outboundPlatformUrl}/v1/audience_segment_external_feeds/${feedId}/properties/technical_name=${property.technical_name}`,
+      property,
+    );
+    this.logger.debug(`Updated External Feed Properties: ${feedId} - ${JSON.stringify(response.data)}`);
+    return response.data;
+  }
+
   // This is a default provided implementation
   protected async instanceContextBuilder(feedId: string): Promise<AudienceFeedConnectorBaseInstanceContext> {
     const audienceFeedP = this.fetchAudienceFeed(feedId);

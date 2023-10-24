@@ -2,6 +2,7 @@
 
 # Unreleased
 
+- 2 new methods to `AudienceFeedConnectorBasePlugin`, `createAudienceFeedProperties` and `updateAudienceFeedProperties` 
 
 # 0.17.0 - 2023-10-16
 
