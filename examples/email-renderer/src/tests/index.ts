@@ -1,8 +1,7 @@
 import 'mocha';
 
-import { expect } from 'chai';
-import sinon from 'sinon';
-import request from 'supertest';
+import * as sinon from 'sinon';
+import * as request from 'supertest';
 
 import { core } from '@mediarithmics/plugins-nodejs-sdk';
 

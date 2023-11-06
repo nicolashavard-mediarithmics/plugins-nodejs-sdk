@@ -1,8 +1,8 @@
 import 'mocha';
 
 import { expect } from 'chai';
-import sinon from 'sinon';
-import request from 'supertest';
+import * as sinon from 'sinon';
+import * as request from 'supertest';
 
 import { core } from '@mediarithmics/plugins-nodejs-sdk';
 
@@ -81,6 +81,9 @@ describe.only('Test Custom Action example', function () {
     const customActionRequest: core.CustomActionRequest = {
       user_point_id: '26340584-f777-404c-82c5-56220667464b',
       custom_action_id: '62',
+      datamart_id: '',
+      node_id: '',
+      scenario_id: '',
     };
 
     request(runner.plugin.app)

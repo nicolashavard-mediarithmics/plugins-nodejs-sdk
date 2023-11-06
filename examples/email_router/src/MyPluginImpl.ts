@@ -1,5 +1,6 @@
-import rp from 'request-promise-native';
-import retry from 'retry';
+import * as rp from 'request-promise-native';
+import * as retry from 'retry';
+import * as express from 'express';
 
 import { core } from '@mediarithmics/plugins-nodejs-sdk';
 
@@ -214,7 +215,7 @@ export class MySimpleEmailRouter extends core.EmailRouterPlugin {
     // Mailjet notify entry point for events such as sent, open, click, bounce, spam, blocked etc...
     this.app.post(
       '/r/external_token_to_be_provided_by_your_account_manager', // This will be listening on : https://plugins.mediarithmics.io/r/external_token_to_be_provided_by_your_account_manager
-      async (req, res) => {
+      async (req: express.Request, res: express.Response) => {
         const emailEvent = req.body;
         this.logger.debug('POST /r/external_token_to_be_provided_by_your_account_manager', JSON.stringify(emailEvent));
         try {
