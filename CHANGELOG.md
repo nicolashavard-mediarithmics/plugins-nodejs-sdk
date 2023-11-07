@@ -5,6 +5,9 @@
 - 2 new methods to `AudienceFeedConnectorBasePlugin`, `createAudienceFeedProperties` and `updateAudienceFeedProperties` 
 - Fix a typo in `UserDeviceTechnicalIdentifierType` (`MOBILE_ADVERTSING_ID` -> `MOBILE_ADVERTISING_ID`)
 - Fix, export `BatchUpdateInterface` for batch update on feeds
+- Upate typescript version from 4.9.5 to 5.2.2
+- Upate winston version from 3.8.2 to 5.11.0
+- Upate sinon version from 15.0.1 to 17.0.1
 
 # 0.17.0 - 2023-10-16
 
