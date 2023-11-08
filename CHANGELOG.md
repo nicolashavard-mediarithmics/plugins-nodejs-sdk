@@ -2,7 +2,9 @@
 
 # Unreleased
 
-- 2 new methods to `AudienceFeedConnectorBasePlugin`, `createAudienceFeedProperties` and `updateAudienceFeedProperties` 
+# 0.18.0 - 2023-11-08
+
+- 2 new methods to `AudienceFeedConnectorBasePlugin`, `createAudienceFeedProperties` and `updateAudienceFeedProperties`
 - Fix a typo in `UserDeviceTechnicalIdentifierType` (`MOBILE_ADVERTSING_ID` -> `MOBILE_ADVERTISING_ID`)
 - Fix, export `BatchUpdateInterface` for batch update on feeds
 - Upate typescript version from 4.9.5 to 5.2.2
