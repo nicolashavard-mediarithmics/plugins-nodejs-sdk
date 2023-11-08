@@ -4,6 +4,7 @@
 
 - 2 new methods to `AudienceFeedConnectorBasePlugin`, `createAudienceFeedProperties` and `updateAudienceFeedProperties` 
 - Fix a typo in `UserDeviceTechnicalIdentifierType` (`MOBILE_ADVERTSING_ID` -> `MOBILE_ADVERTISING_ID`)
+- Fix, export `BatchUpdateInterface` for batch update on feeds
 
 # 0.17.0 - 2023-10-16
 
