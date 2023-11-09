@@ -2,6 +2,8 @@
 
 # Unreleased
 
+# 0.19.0 - 2023-11-09
+
 - Update `UserDeviceTechnicalIdentifierType` with `TV_ADVERTISING_ID`
 - Update `DeviceIdRegistryType` with `TV_ADVERTISING_ID`
 
