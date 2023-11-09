@@ -82,7 +82,8 @@ export type DeviceIdRegistryType =
   | 'NETWORK_DEVICE_ID'
   | 'CUSTOM_DEVICE_ID'
   | 'MOBILE_ADVERTISING_ID'
-  | 'MOBILE_VENDOR_ID';
+  | 'MOBILE_VENDOR_ID'
+  | 'TV_ADVERTISING_ID';
 
 export interface IdentifyingAccount {
   type: 'USER_ACCOUNT';

@@ -2,6 +2,9 @@
 
 # Unreleased
 
+- Update `UserDeviceTechnicalIdentifierType` with `TV_ADVERTISING_ID`
+- Update `DeviceIdRegistryType` with `TV_ADVERTISING_ID`
+
 # 0.18.0 - 2023-11-08
 
 - 2 new methods to `AudienceFeedConnectorBasePlugin`, `createAudienceFeedProperties` and `updateAudienceFeedProperties`
