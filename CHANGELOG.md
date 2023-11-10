@@ -2,6 +2,9 @@
 
 # Unreleased
 
+- Make `UserIdentifierInfo` an union type, which will help infering type based on `type`.
+- Use `UserDeviceTechnicalIdentifierType` for `registry_type` in `IdentifyingDeviceTechnicalId` instead of previous union type duplicated.
+
 # 0.19.0 - 2023-11-09
 
 - Update `UserDeviceTechnicalIdentifierType` with `TV_ADVERTISING_ID`

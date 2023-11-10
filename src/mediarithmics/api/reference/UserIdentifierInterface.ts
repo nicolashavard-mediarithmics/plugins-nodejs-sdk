@@ -7,9 +7,7 @@ export type TimeStamp = number; //long
 export type UserEmailIdentifierProviderResource = unknown; //TODO
 export type UserAgentInfo = unknown; //TODO
 
-export interface UserIdentifierInfo {
-  type: UserIdentifierInfoType;
-}
+export type UserIdentifierInfo = UserDevicePointIdentifierInfo | UserPointIdentifierInfo | UserEmailIdentifierInfo | UserAccountIdentifierInfo | UserAgentIdentifierInfo;
 
 export enum UserDeviceTechnicalIdentifierType {
   MUM_ID = 'MUM_ID',
@@ -30,7 +28,7 @@ export interface UserDevicePointIdentifierTechnicalIdentifierResource {
   expiration_ts?: TimeStamp;
 }
 
-export interface UserDevicePointIdentifierInfo extends UserIdentifierInfo {
+export interface UserDevicePointIdentifierInfo {
   type: 'USER_DEVICE_POINT';
   id?: string;
   device?: UserAgentInfo;
@@ -39,13 +37,13 @@ export interface UserDevicePointIdentifierInfo extends UserIdentifierInfo {
   technical_identifiers: Array<UserDevicePointIdentifierTechnicalIdentifierResource>;
 }
 
-export interface UserPointIdentifierInfo extends UserIdentifierInfo {
+export interface UserPointIdentifierInfo {
   type: 'USER_POINT';
   user_point_id: UUID;
   creation_ts: TimeStamp;
 }
 
-export interface UserEmailIdentifierInfo extends UserIdentifierInfo {
+export interface UserEmailIdentifierInfo {
   type: 'USER_EMAIL';
   hash: string;
   email?: string;
@@ -55,14 +53,14 @@ export interface UserEmailIdentifierInfo extends UserIdentifierInfo {
   providers: Array<UserEmailIdentifierProviderResource>;
 }
 
-export interface UserAccountIdentifierInfo extends UserIdentifierInfo {
+export interface UserAccountIdentifierInfo {
   type: 'USER_ACCOUNT';
   user_account_id: string;
   creation_ts: TimeStamp;
   compartment_id?: number; //To Be changed to `string` when the back will be updated
 }
 
-export interface UserAgentIdentifierInfo extends UserIdentifierInfo {
+export interface UserAgentIdentifierInfo {
   type: 'USER_AGENT';
   vector_id: VectorId;
   device?: UserAgentInfo;

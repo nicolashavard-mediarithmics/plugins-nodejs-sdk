@@ -1,3 +1,5 @@
+import { UserDeviceTechnicalIdentifierType } from "../../reference/UserIdentifierInterface";
+
 export interface AssetFilePropertyResource {
   original_file_name?: string;
   original_name?: string;
@@ -76,14 +78,6 @@ export interface NativeImagePropertyResource {
   file_path?: string;
 }
 
-export type DeviceIdRegistryType =
-  | 'INSTALLATION_ID'
-  | 'MUM_ID'
-  | 'NETWORK_DEVICE_ID'
-  | 'CUSTOM_DEVICE_ID'
-  | 'MOBILE_ADVERTISING_ID'
-  | 'MOBILE_VENDOR_ID'
-  | 'TV_ADVERTISING_ID';
 
 export interface IdentifyingAccount {
   type: 'USER_ACCOUNT';
@@ -96,7 +90,7 @@ export interface IdentifyingEmail {
 
 export interface IdentifyingDeviceTechnicalId {
   type: 'USER_DEVICE_TECHNICAL_ID';
-  registry_type: DeviceIdRegistryType;
+  registry_type: UserDeviceTechnicalIdentifierType;
   registry_id?: string;
 }
 
