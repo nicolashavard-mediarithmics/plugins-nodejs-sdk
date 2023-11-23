@@ -214,6 +214,7 @@ export abstract class BasePlugin<CacheValue = unknown> {
     this.initStatusRoute();
     this.initLogLevelUpdateRoute();
     this.initLogLevelGetRoute();
+    this.initMetadataRoute();
   }
 
   // The objective is to stop having 'synchronized' instance context re-build that are putting some stress on the gateway due to burst of API calls
@@ -486,6 +487,40 @@ export abstract class BasePlugin<CacheValue = unknown> {
       this.asyncMiddleware(async (req: express.Request, res: express.Response) => {
         // not useful anymore, keep it during the migration phase
         res.status(200).end();
+      }),
+    );
+  }
+
+  public getMetadata() {
+    const dependencies: any = {};
+
+    try {
+      dependencies['@mediarithmics/plugins-nodejs-sdk'] = require(
+        process.cwd() + '/node_modules/@mediarithmics/plugins-nodejs-sdk/package.json',
+      )?.version;
+    } catch (err) {}
+
+    return {
+      runtime: 'node',
+      runtime_version: process.version,
+      group_id: process.env.PLUGIN_GROUP_ID,
+      artifact_id: process.env.PLUGIN_ARTIFACT_ID,
+      plugin_type: process.env.PLUGIN_TYPE,
+      plugin_version: process.env.PLUGIN_VERSION,
+      plugin_build: process.env.PLUGIN_BUILD,
+      dependencies,
+    };
+  }
+
+  private initMetadataRoute() {
+    this.app.get(
+      '/v1/metadata',
+      this.asyncMiddleware(async (req: express.Request, res: express.Response) => {
+        try {
+          res.status(200).send(this.getMetadata());
+        } catch (err) {
+          res.status(500).send({ status: 'error', message: `${(err as Error).message}` });
+        }
       }),
     );
   }

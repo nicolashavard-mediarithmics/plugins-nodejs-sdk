@@ -4,6 +4,7 @@
 
 - Make `UserIdentifierInfo` an union type, which will help infering type based on `type`.
 - Use `UserDeviceTechnicalIdentifierType` for `registry_type` in `IdentifyingDeviceTechnicalId` instead of previous union type duplicated.
+- Add new route `/metadata` to BasePlugin which will give informations on plugin, node and dependencies used. 
 
 # 0.19.0 - 2023-11-09
 

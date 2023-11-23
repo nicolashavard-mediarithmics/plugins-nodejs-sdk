@@ -31,6 +31,25 @@ describe('Plugin Status API Tests', function () {
   });
 });
 
+describe('Plugin Metadata API Tests', function () {
+  class MyFakePlugin extends core.BasePlugin {}
+
+  it('should return metadata', function (done) {
+    const plugin = new MyFakePlugin(false);
+    const runner = new core.TestingPluginRunner(plugin);
+
+    void request(runner.plugin.app)
+      .get('/v1/metadata')
+      .end(function (err, res) {
+        expect(res.status).to.equal(200);
+        expect(JSON.stringify(res.body)).to.equal(
+          JSON.stringify({ runtime: 'node', runtime_version: process.version, dependencies: {} }),
+        );
+        done();
+      });
+  });
+});
+
 describe('Plugin log level API tests', function () {
   class MyFakePlugin extends core.BasePlugin {}
 
