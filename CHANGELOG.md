@@ -2,6 +2,9 @@
 
 # Unreleased
 
+- Refactor types for selected identifying resources for external feeds
+- Add filtering functions for selected identifying resources for external feeds
+
 # 0.20.1 - 2024-02-14
 
 - Replace toobusy string message by a json formatted message

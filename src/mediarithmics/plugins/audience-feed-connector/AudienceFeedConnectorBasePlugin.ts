@@ -15,10 +15,8 @@ import { BatchUpdateHandler } from '../../api/core/batchupdate/BatchUpdateHandle
 import { BatchUpdatePluginResponse, BatchUpdateRequest } from '../../api/core/batchupdate/BatchUpdateInterface';
 import {
   BatchedUserSegmentUpdatePluginResponse,
-  DeliveryType,
   ExternalSegmentConnectionPluginResponse,
   ExternalSegmentCreationPluginResponse,
-  UserSegmentUpdatePluginBatchDeliveryResponseData,
   UserSegmentUpdatePluginResponse,
 } from '../../api/plugin/audiencefeedconnector/AudienceFeedConnectorPluginResponseInterface';
 import {
