@@ -182,7 +182,7 @@ export abstract class BasePlugin<CacheValue = unknown> {
             req.path === '/v1/log_level'
           )
         ) {
-          res.status(429).send("I'm busy right now, sorry.");
+          res.status(429).json({ status: 'RETRY', message: "I'm busy right now, sorry." });
         } else {
           next();
         }
