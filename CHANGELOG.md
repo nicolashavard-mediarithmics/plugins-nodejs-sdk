@@ -2,6 +2,10 @@
 
 # Unreleased
 
+# 0.20.1 - 2024-02-14
+
+- Replace toobusy string message by a json formatted message
+
 # 0.20.0 - 2023-11-29
 
 - Make `UserIdentifierInfo` an union type, which will help infering type based on `type`.
