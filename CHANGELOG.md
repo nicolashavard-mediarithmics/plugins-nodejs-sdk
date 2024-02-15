@@ -2,6 +2,8 @@
 
 # Unreleased
 
+# 0.21.0 - 2024-02-15
+
 - Refactor types for selected identifying resources for external feeds
 - Add filtering functions for selected identifying resources for external feeds
 
