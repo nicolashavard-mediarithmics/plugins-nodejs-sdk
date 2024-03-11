@@ -17,12 +17,14 @@ import {
   BatchedUserSegmentUpdatePluginResponse,
   ExternalSegmentConnectionPluginResponse,
   ExternalSegmentCreationPluginResponse,
+  ExternalSegmentTroubleshootResponse,
   UserSegmentUpdatePluginResponse,
 } from '../../api/plugin/audiencefeedconnector/AudienceFeedConnectorPluginResponseInterface';
 import {
   AudienceFeedBatchContext,
   ExternalSegmentConnectionRequest,
   ExternalSegmentCreationRequest,
+  ExternalSegmentTroubleshootRequest,
   UserSegmentUpdateRequest,
 } from '../../api/plugin/audiencefeedconnector/AudienceFeedConnectorRequestInterface';
 import { BasePlugin, PropertiesWrapper } from '../common';
@@ -42,6 +44,7 @@ abstract class GenericAudienceFeedConnectorBasePlugin<
     this.initExternalSegmentCreation();
     this.initExternalSegmentConnection();
     this.initUserSegmentUpdate();
+    this.initTroubleshoot();
   }
 
   async fetchAudienceSegment(feedId: string): Promise<AudienceSegmentResource> {
@@ -126,6 +129,13 @@ abstract class GenericAudienceFeedConnectorBasePlugin<
     request: UserSegmentUpdateRequest,
     instanceContext: AudienceFeedConnectorBaseInstanceContext,
   ): Promise<R>;
+
+  protected onTroubleshoot(
+    request: ExternalSegmentTroubleshootRequest,
+    instanceContext: AudienceFeedConnectorBaseInstanceContext,
+  ): Promise<ExternalSegmentTroubleshootResponse> {
+    return Promise.resolve({ status: 'not_implemented' });
+  }
 
   private logErrorMessage(err: Error) {
     this.logger.error(
@@ -319,6 +329,42 @@ abstract class GenericAudienceFeedConnectorBasePlugin<
         }
       },
     );
+  }
+
+  private initTroubleshoot(): void {
+    this.app.get('/v1/troubleshoot', this.emptyBodyFilter, async (req: express.Request, res: express.Response) => {
+      try {
+        this.logger.debug(`POST /v1/troubleshoot ${JSON.stringify(req.body)}`);
+
+        const request = req.body as ExternalSegmentTroubleshootRequest;
+
+        const instanceContext = await this.getInstanceContext(request.feed_id);
+
+        const response = await this.onTroubleshoot(request, instanceContext);
+
+        this.logger.debug(`Returning: ${JSON.stringify(response)}`);
+
+        let statusCode: number;
+        switch (response.status) {
+          case 'ok':
+            statusCode = 200;
+            break;
+          case 'error':
+            statusCode = 500;
+            break;
+          case 'not_implemented':
+            statusCode = 400;
+            break;
+          default:
+            statusCode = 500;
+        }
+
+        return res.status(statusCode).send(JSON.stringify(response));
+      } catch (err) {
+        this.logErrorMessage(err);
+        return res.status(500).send({ status: 'error', message: `${(err as Error).message}` });
+      }
+    });
   }
 }
 

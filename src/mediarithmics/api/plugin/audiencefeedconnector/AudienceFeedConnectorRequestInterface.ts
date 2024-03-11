@@ -33,3 +33,10 @@ export interface AudienceFeedBatchContext extends BatchUpdateContext {
   datamart_id: string;
   grouping_key: string;
 }
+
+export interface ExternalSegmentTroubleshootRequest {
+  feed_id: string;
+  datamart_id: string;
+  segment_id: string;
+  params?: {};
+}

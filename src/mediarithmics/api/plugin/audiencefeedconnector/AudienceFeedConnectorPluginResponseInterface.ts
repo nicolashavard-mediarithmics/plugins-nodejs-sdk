@@ -2,6 +2,7 @@ import { StatusCode } from '../../core/common/Response';
 
 export type AudienceFeedConnectorStatus = 'ok' | 'error' | 'retry' | 'no_eligible_identifier';
 export declare type AudienceFeedConnectorConnectionStatus = 'ok' | 'error' | 'external_segment_not_ready_yet';
+export declare type AudienceFeedConnectorTroubleshootStatus = 'ok' | 'error' | 'not_implemented';
 export type AudienceFeedConnectorContentType = 'text/csv' | 'application/json' | 'text/plain';
 
 export interface UserSegmentUpdatePluginResponse {
@@ -56,6 +57,12 @@ export interface ExternalSegmentCreationPluginResponse {
 export interface ExternalSegmentConnectionPluginResponse {
   status: AudienceFeedConnectorConnectionStatus;
   message?: string;
+}
+
+export interface ExternalSegmentTroubleshootResponse {
+  status: AudienceFeedConnectorTroubleshootStatus;
+  message?: string;
+  data?: {};
 }
 
 export interface AudienceFeedStatTag {

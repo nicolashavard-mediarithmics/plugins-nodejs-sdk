@@ -2,6 +2,8 @@
 
 # Unreleased
 
+- Add new optional route `/troubleshoot` on AudienceSegmentExternalFeed which take `ExternalSegmentTroubleshootRequest` and return an `ExternalSegmentTroubleshootResponse`. This is will be helpful to debug feeds (example: return volumes on third party)
+
 # 0.21.0 - 2024-02-15
 
 - Refactor types for selected identifying resources for external feeds
