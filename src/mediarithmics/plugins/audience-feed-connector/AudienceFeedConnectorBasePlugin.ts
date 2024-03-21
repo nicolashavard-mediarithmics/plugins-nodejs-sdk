@@ -145,8 +145,11 @@ abstract class GenericAudienceFeedConnectorBasePlugin<
     );
   }
 
-  protected async getInstanceContext(feedId: string): Promise<AudienceFeedConnectorBaseInstanceContext> {
-    if (!this.pluginCache.get(feedId)) {
+  protected async getInstanceContext(
+    feedId: string,
+    forceRefresh?: boolean,
+  ): Promise<AudienceFeedConnectorBaseInstanceContext> {
+    if (forceRefresh || !this.pluginCache.get(feedId)) {
       void this.pluginCache.put(
         feedId,
         this.instanceContextBuilder(feedId).catch((err) => {
@@ -190,7 +193,7 @@ abstract class GenericAudienceFeedConnectorBasePlugin<
             throw new Error('No External Segment Creation listener registered!');
           }
 
-          const instanceContext = await this.getInstanceContext(request.feed_id);
+          const instanceContext = await this.getInstanceContext(request.feed_id, true);
 
           const response = await this.onExternalSegmentCreation(request, instanceContext);
 

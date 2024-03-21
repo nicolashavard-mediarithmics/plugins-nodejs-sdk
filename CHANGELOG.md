@@ -3,6 +3,8 @@
 # Unreleased
 
 - Add new optional route `/troubleshoot` on AudienceSegmentExternalFeed which take `ExternalSegmentTroubleshootRequest` and return an `ExternalSegmentTroubleshootResponse`. This is will be helpful to debug feeds (example: return volumes on third party)
+- `AudienceFeedConnectorBasePlugin` add new optional parameter `forceRefresh?: boolean` to `getInstanceContext`
+- `AudienceFeedConnectorBasePlugin` force refresh of instanceContext for `external_segment_creation`
 
 # 0.21.0 - 2024-02-15
 
